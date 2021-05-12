@@ -1,28 +1,28 @@
 {
-  "name": "emir/tagtest",
-  "version": "v1.2.4-dev",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Emir Bugra Koksalan",
-      "email": "kodmanyagha@gmail.com"
-    }
-  ],
-  "autoload": {
-    "files": [
-      "src/Helpers/Helper.php"
+    "name": "emir\/tagtest",
+    "version": "v1.2.4",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emir Bugra Koksalan",
+            "email": "kodmanyagha@gmail.com"
+        }
     ],
-    "psr-4": {
-      "Tagtest\\": "src/"
+    "autoload": {
+        "files": [
+            "src\/Helpers\/Helper.php"
+        ],
+        "psr-4": {
+            "Tagtest\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests\/"
+        }
+    },
+    "require": {
+        "php": "^7.4|^8.0"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
-  },
-  "require": {
-    "php": "^7.4|^8.0"
-  }
 }
