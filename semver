@@ -3,21 +3,25 @@
 
 $newVersion = trim($argv[1]);
 
-$file = 'composer.json';
-if ( !file_exists($file))
-	$file = 'package.json';
+$file = '';
+if ( file_exists('composer.json'))
+    $file = 'composer.json';
+else if ( file_exists('package.json') )
+    $file = 'package.json';
 
-$json = json_decode(file_get_contents($file));
-$devVersion = trim($json->version);
-if ( strlen($devVersion) == 0) {
-	echo "`version` property not found in $file file." . PHP_EOL;
-	exit;
+if (strlen($file) > 0)
+    $json = json_decode(file_get_contents($file));
+else {
+    $json = new stdClass();
+    $json->version = $newVersion;
 }
+
+$devVersion = trim($json->version);
 
 echo $json->version . PHP_EOL;
 
 if ( strlen($newVersion) == 0) {
-	exit;
+    exit;
 }
 
 function json_encode_pretty($data, $extra_flags = 0, $exclude_flags = 0)
@@ -39,7 +43,7 @@ $releaseVersion = explode('-', $devVersion)[0];
 $json->version = $releaseVersion;
 echo $json->version . ' ' . $devVersion . PHP_EOL;
 
-file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
+if ( strlen($file) > 0) file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
 
 
 // - commit with version name and push to remote
@@ -57,11 +61,10 @@ shell_exec('git push origin ' . $releaseVersion);
 
 // - update package file for next dev version
 $json->version = $newVersion . '-dev';
-file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
+if ( strlen($file) > 0) file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
 
 
 // - commit last changes to master branch
-shell_exec('git add .; git commit -m "'. $newVersion .'-dev"; git push origin master');
-
+if ( strlen($file) > 0) shell_exec('git add .; git commit -m "'. $newVersion .'-dev"; git push origin master');
 
 
