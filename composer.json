@@ -2,11 +2,14 @@
   "name": "emir/tagtest",
   "version": "v1.0.0-dev",
   "type": "library",
+  "license": "MIT",
   "authors": [
     {
       "name": "Emir Bugra Koksalan",
       "email": "kodmanyagha@gmail.com"
     }
   ],
-  "require": {}
+  "require": {
+    "php": "^7.4|^8.0"
+  }
 }
