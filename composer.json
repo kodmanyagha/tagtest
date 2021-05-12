@@ -1,0 +1,10 @@
+{
+    "name": "emir/tagtest",
+    "authors": [
+        {
+            "name": "Emir Bugra Koksalan",
+            "email": "kodmanyagha@gmail.com"
+        }
+    ],
+    "require": {}
+}
