@@ -3,12 +3,11 @@
 /**
  * @return string
  * Current version number of library.
- *
- * NOTE: In the development environment you must return current version without "-dev" suffix.
  */
 function tagtest_version()
 {
-	return "v1.1.3";
+	$composer = json_decode(file_get_contents(dirname(__FILE__) . '/../../composer.json'));
+	return $composer->version;
 }
 
 /***
