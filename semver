@@ -1,0 +1,63 @@
+#!/usr/bin/env php
+<?php
+
+$newVersion = trim($argv[1]);
+
+$composerJson = json_decode(file_get_contents('composer.json'));
+$devVersion = trim($composerJson->version);
+if ( strlen($devVersion) == 0) {
+	echo "`version` property not found in composer.json file." . PHP_EOL;
+	exit;
+}
+
+echo $composerJson->version . PHP_EOL;
+
+if ( strlen($newVersion) == 0) {
+	exit;
+}
+
+function json_encode_pretty($data, $extra_flags = 0, $exclude_flags = 0)
+{
+    // prettiest flags for: 7.3.9
+    $flags = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (defined("JSON_UNESCAPED_LINE_TERMINATORS") ? JSON_UNESCAPED_LINE_TERMINATORS : 0) | JSON_PRESERVE_ZERO_FRACTION | (defined("JSON_THROW_ON_ERROR") ? JSON_THROW_ON_ERROR : 0);
+    $flags = ($flags | $extra_flags) & ~ $exclude_flags;
+    return (json_encode($data, $flags));
+}
+
+
+// - push last changes
+shell_exec('git add .; git commit -m "last changes"; git push origin master');
+
+$releaseVersion = explode('-', $devVersion)[0];
+
+
+// - update composer.json file with release version
+$composerJson->version = $releaseVersion;
+echo $composerJson->version . ' ' . $devVersion . PHP_EOL;
+
+file_put_contents('composer.json', json_encode_pretty($composerJson, 1, 1) . PHP_EOL);
+
+
+// - commit with version name and push to remote
+shell_exec('git add .; git commit -m "'. $releaseVersion .'"; git push origin master');
+
+
+// - creating new tag in local with version name (or version number)
+shell_exec('git tag -a ' . $releaseVersion . ' -m "' . $releaseVersion . '"');
+// shell_exec('git tag -a ' . $releaseVersion);
+
+
+// - push this tag to remote. it is similar to pushing a branch
+shell_exec('git push origin ' . $releaseVersion);
+
+
+// - update composer.json file for next dev version
+$composerJson->version = $newVersion . '-dev';
+file_put_contents('composer.json', json_encode_pretty($composerJson, 1, 1) . PHP_EOL);
+
+
+// - commit last changes to master branch
+shell_exec('git add .; git commit -m "'. $newVersion .'-dev"; git push origin master');
+
+
+
