@@ -9,6 +9,19 @@
       "email": "kodmanyagha@gmail.com"
     }
   ],
+  "autoload": {
+    "files": [
+      "src/Helpers/Helper.php"
+    ],
+    "psr-4": {
+      "Tagtest\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": "^7.4|^8.0"
   }
