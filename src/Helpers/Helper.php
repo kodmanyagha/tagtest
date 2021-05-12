@@ -6,8 +6,8 @@
  */
 function tagtest_version()
 {
-	$composer = json_decode(file_get_contents(dirname(__FILE__) . '/../../composer.json'));
-	return $composer->version;
+    $composer = json_decode(file_get_contents(dirname(__FILE__) . '/../../composer.json'));
+    return $composer->version;
 }
 
 /***
@@ -19,6 +19,6 @@ function tagtest_version()
  */
 function tagtest_total($a, $b)
 {
-	return $a + $b;
+    return $a + $b;
 }
 
