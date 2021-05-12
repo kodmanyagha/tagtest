@@ -1,10 +1,12 @@
 {
-    "name": "emir/tagtest",
-    "authors": [
-        {
-            "name": "Emir Bugra Koksalan",
-            "email": "kodmanyagha@gmail.com"
-        }
-    ],
-    "require": {}
+  "name": "emir/tagtest",
+  "version": "v1.0.0-dev",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Emir Bugra Koksalan",
+      "email": "kodmanyagha@gmail.com"
+    }
+  ],
+  "require": {}
 }
