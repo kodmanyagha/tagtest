@@ -3,14 +3,18 @@
 
 $newVersion = trim($argv[1]);
 
-$composerJson = json_decode(file_get_contents('composer.json'));
-$devVersion = trim($composerJson->version);
+$file = 'composer.json';
+if ( !file_exists($file))
+	$file = 'package.json';
+
+$json = json_decode(file_get_contents($file));
+$devVersion = trim($json->version);
 if ( strlen($devVersion) == 0) {
-	echo "`version` property not found in composer.json file." . PHP_EOL;
+	echo "`version` property not found in $file file." . PHP_EOL;
 	exit;
 }
 
-echo $composerJson->version . PHP_EOL;
+echo $json->version . PHP_EOL;
 
 if ( strlen($newVersion) == 0) {
 	exit;
@@ -31,11 +35,11 @@ shell_exec('git add .; git commit -m "last changes"; git push origin master');
 $releaseVersion = explode('-', $devVersion)[0];
 
 
-// - update composer.json file with release version
-$composerJson->version = $releaseVersion;
-echo $composerJson->version . ' ' . $devVersion . PHP_EOL;
+// - update package file with release version
+$json->version = $releaseVersion;
+echo $json->version . ' ' . $devVersion . PHP_EOL;
 
-file_put_contents('composer.json', json_encode_pretty($composerJson, 1, 1) . PHP_EOL);
+file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
 
 
 // - commit with version name and push to remote
@@ -51,9 +55,9 @@ shell_exec('git tag -a ' . $releaseVersion . ' -m "' . $releaseVersion . '"');
 shell_exec('git push origin ' . $releaseVersion);
 
 
-// - update composer.json file for next dev version
-$composerJson->version = $newVersion . '-dev';
-file_put_contents('composer.json', json_encode_pretty($composerJson, 1, 1) . PHP_EOL);
+// - update package file for next dev version
+$json->version = $newVersion . '-dev';
+file_put_contents($file, json_encode_pretty($json, 1, 1) . PHP_EOL);
 
 
 // - commit last changes to master branch
