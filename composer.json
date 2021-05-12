@@ -1,6 +1,6 @@
 {
-    "name": "emir\/tagtest",
-    "version": "v1.2.4",
+    "name": "emir/tagtest",
+    "version": "v1.2.6-dev",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,15 +11,15 @@
     ],
     "autoload": {
         "files": [
-            "src\/Helpers\/Helper.php"
+            "src/Helpers/Helper.php"
         ],
         "psr-4": {
-            "Tagtest\\": "src\/"
+            "Tagtest\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests\/"
+            "Tests\\": "tests/"
         }
     },
     "require": {
